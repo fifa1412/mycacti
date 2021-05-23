@@ -2,6 +2,8 @@
 
 return [
 
+    'ENABLE_PRINT_SYSTEM_EXCEPTION' => true, // หากเป็น true เมื่อเกิด exception ที่ไม่รู้จัก ระบบ return exception ของระบบออกไปด้วย
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -67,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Bangkok',
 
     /*
     |--------------------------------------------------------------------------

@@ -13,6 +13,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('layouts.main-template')->with('action', 'list-plant'); });
+Route::get('/add-plant', function () { return view('layouts.main-template')->with('action', 'add-plant'); });
