@@ -20,11 +20,12 @@
         </div>
         <div class="form-group" style="margin-bottom: 10px">
             <label>Received Date</label>
-            <input type="text" class="form-control" id="received_date" name="received_date" placeholder="Enter received date (YYYY-mm-dd)">
+            <input type="text" value="<?php echo date('Y-m-d'); ?>" class="form-control" id="received_date" name="received_date" placeholder="Enter received date (YYYY-mm-dd)">
         </div>
         <div class="form-group" style="margin-bottom: 10px">
+        <img id="preview_img" src="#"/>
             <label class="form-label" for="customFile">Select Plant Image</label>
-            <input type="file" class="form-control" id="plant_img" name="plant_img"/>
+            <input type="file" class="form-control" id="plant_img" name="plant_img" onchange="AddPlant.readImage(this);"/>
         </div>
         <div class="form-group" style="margin-bottom: 10px">
             <label class="form-label" for="customFile">Note</label>

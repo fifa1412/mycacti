@@ -2,24 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class MyPlant extends Model
+class MyPlant extends Eloquent
 {
-    use HasFactory;
-
-    protected $table = 'my_plant';
-    protected $primaryKey = 'id';
-
+    protected $connection = 'mongodb';
+    protected $collection = 'my_plant';
+    
     protected $fillable = [
-        'user_id',
+        'plant_id',
         'plant_name',
+        'user_id',
         'price',
-        'img',
+        'img_name',
+        'cloud_img_url',
         'plant_status_id',
         'received_date',
-        'note'
+        'note',
     ];
-
+    
 }
