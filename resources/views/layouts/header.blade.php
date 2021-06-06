@@ -37,6 +37,10 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="{{url('/')}}">My Plant</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{url('add-plant')}}">Add Plant</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url('add-plant-set')}}">Add Plant Set</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url('my-wish-list')}}">My Wish List</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url('cost-detail')}}">Cost Detail</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url('manage-plant-data')}}">Manage Plant Data</a></li>
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

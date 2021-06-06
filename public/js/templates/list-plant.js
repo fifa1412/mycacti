@@ -32,15 +32,19 @@ ListPlant.getPlantList = function(){
                     thead_content += `<th scope="col">${total_item}</th>`;
                     tbody_content += `
                     <td width="${100/max_per_row}">
-                        <img style="display:block;" width="150px" src="${plant.thumbnail_img_cloud_path}">
+                        <img style="display:block;" class="pointer" onclick="showImgModal(this, '${plant.img_cloud_path}');" width="150px" alt="${plant.plant_name}" src="${plant.thumbnail_img_cloud_path}">
                     </td>`;
                     tbody_desc_content += `<tr>
-                    						<td scope="col">${total_item}</td>
-                    						<td scope="col">${plant.received_date}</td>
+                    						<td scope="col" align="center">${total_item}</td>
+                    						<td scope="col" align="center">${plant.received_date}</td>
                     						<td scope="col">SET001</td>
                     						<td scope="col">${plant.plant_name}</td>
-                    						<td scope="col">${plant.price}</td>
+                    						<td scope="col" align="right">${plant.price}</td>
                     						<td scope="col">${plant.note}</td>
+                                            <td scope="col" align="center">
+                                                <button type="button" class="btn btn-info">Edit</button>
+                                                <button type="button" class="btn btn-danger">Delete</button>
+                                            </td>
                     					</tr>`;
                     row_item_count++;
 
@@ -82,6 +86,7 @@ ListPlant.getPlantList = function(){
                                         <th scope="col">ชื่อต้นไม้</th>
                                         <th scope="col">ราคา</th>
                                         <th scope="col">หมายเหตุ</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>${tbody_desc_content}</tbody>
