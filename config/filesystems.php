@@ -52,12 +52,20 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
-        'google' => [
+        'gd-img' => [
             'driver' => 'google',
             'clientId' => env('GOOGLE_CLIENT_ID'),
             'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
             'refreshToken' => env('GOOGLE_REFRESH_TOKEN'),
-            'folderId' => env('GOOGLE_DRIVE_FOLDER_ID'),
+            'folderId' => env('GOOGLE_DRIVE_IMG_FOLDER_ID_IMG'),
+        ],
+
+        'gd-thumbnail-img' => [
+            'driver' => 'google',   
+            'clientId' => env('GOOGLE_CLIENT_ID'),
+            'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
+            'refreshToken' => env('GOOGLE_REFRESH_TOKEN'),
+            'folderId' => env('GOOGLE_DRIVE_THUMBNAIL_IMG_FOLDER_ID'),
         ],
 
     ],

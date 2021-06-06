@@ -20,8 +20,8 @@ Route::group(
         //'prefix'     => $api_name,
     ],
     function () {
-        Route::post('Plant/userAddPlant', 'Plant@userAddPlant');
-        Route::post('Plant/userGetPlantList', 'Plant@userGetPlantList');
+        Route::post('Plant/userAddPlant', 'PlantAPI@userAddPlant');
+        Route::post('Plant/userGetPlantList', 'PlantAPI@userGetPlantList');
     
     }
 );
