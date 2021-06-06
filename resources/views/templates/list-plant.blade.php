@@ -8,6 +8,9 @@ h4 {
   }
 }
 </style>
+<script>
+	let max_per_row = <?php echo config('config-prod.LIST_PLANT_PER_ROW');?>;
+</script>
 
 <div class="container" style="padding: 2rem 0rem;">
 	<div class="row">
@@ -19,22 +22,8 @@ h4 {
 		</div>
 	</div>
 	<br>
-  	<div class="row">
-		<div class="col-12">
-			<table class="table table-image table-bordered">
-				<thead style="background: grey">
-					<tr style="text-align: center">
-					<th scope="col">ID</th>
-					<th scope="col">Image</th>
-					<th scope="col">Plant Name</th>
-					<th scope="col">Price</th>
-					<th scope="col">Received Date</th>
-					<th scope="col">Note</th>
-					<th scope="col">Action</th>
-					</tr>
-				</thead>
-				<tbody id="tbody_plant_list"></tbody>
-			</table>   
-		</div>
+	<div class="row">
+		<div id="list-plant-row" class="col-12"></div>
   	</div>
+	
 </div>

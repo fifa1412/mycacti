@@ -37,7 +37,7 @@ class APIController extends Controller
     }
 
     public static function getResponseDescription(Exception $e){
-        if(config('app.ENABLE_PRINT_SYSTEM_EXCEPTION') == true){
+        if(config('config-prod.ENABLE_PRINT_SYSTEM_EXCEPTION') == true){
             return $e->getMessage();
         }else{
             if($e->getCode() == SAFE_EXCEPTION_CODE){

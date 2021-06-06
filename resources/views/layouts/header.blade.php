@@ -14,6 +14,10 @@
     <link rel="icon" href="{{asset('images/logo.png')}}">
 </head>
 
+<script>
+    let ASSET_IMG_PATH = "{{asset('images/')}}";
+</script>
+
 <style>
     .cursor-pointer{
         cursor: pointer;
