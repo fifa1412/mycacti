@@ -130,7 +130,8 @@ class GoogleDrive {
 
     public static function uploadPlantThumbnailImg($file, $filename){
         $image = Image::make($file);
-        $image->resize(800, 800, function ($constraint) {
+        $image->orientate();
+        $image->resize(500, 500, function ($constraint) {
             $constraint->aspectRatio();
         });
         $image->save(public_path('images/'.$filename));
