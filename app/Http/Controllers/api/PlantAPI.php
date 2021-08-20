@@ -1,16 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\api;
-
+use App\Http\Controllers\helper\GoogleDriveHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\APIController;
 use App\Models\MyPlant;
+use App\Models\CloudImageDetails;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Str;
-use Storage;
-use Image;
+
 use File;
 
 class PlantAPI extends Controller
@@ -47,7 +47,6 @@ class PlantAPI extends Controller
                 'price'              =>  'required|numeric',
                 'received_date'      =>  'date_format:Y-m-d',
                 'note'               =>  'string',
-                //'img'                =>  'image:jpeg,png,jpg,gif,svg',
             ]);
             if ($input_validator->fails()) {
                 throw new Exception($input_validator->errors()->first(), SAFE_EXCEPTION_CODE);
@@ -61,45 +60,44 @@ class PlantAPI extends Controller
                 $random_str = Str::random(16);
                 $img_name = $random_str.".jpg";
                 $plant_img = $request->file('img');
-                GoogleDrive::uploadPlantImg($plant_img,$img_name);
+                GoogleDriveHelper::uploadPlantImg($plant_img,$img_name);
 
                 $thumbnail_img_name = $random_str."-thumbnail.jpg";
-                GoogleDrive::uploadPlantThumbnailImg($plant_img,$thumbnail_img_name);
+                GoogleDriveHelper::uploadPlantThumbnailImg($plant_img,$thumbnail_img_name);
 
-                //GoogleDrive::upload($photo,$thumbnail_img_name);
-                //$upload_plant_img = $plant_img->store('','google'); // upload to google drive
-                //$upload_plant_img = $plant_img->storeAs('public/plant_img', $plant_filename); // upload to local
-            }
-
-            // get incremental plant id
-            $plant_id = MyPlant::max('plant_id');
-            if($plant_id == null){
-                $plant_id = 1;
-            }else{
-                $plant_id++;
             }
 
             // get url path from google drive
             $img_cloud_path = null;
             if($img_name != null){
-                $url_list = GoogleDrive::getCloudFileList('gd-img');
+                $url_list = GoogleDriveHelper::getCloudFileList('gd-img');
                 $img_cloud_path = $url_list[$img_name];
             }
             $thumbnail_img_cloud_path = null;
             if($thumbnail_img_name != null){
-                $url_list = GoogleDrive::getCloudFileList('gd-thumbnail-img');
+                $url_list = GoogleDriveHelper::getCloudFileList('gd-thumbnail-img');
                 $thumbnail_img_cloud_path = $url_list[$thumbnail_img_name];
             } 
 
-            $response_data['plant_obj'] = MyPlant::create(array(
-                    'plant_id' => $plant_id,
-                    'plant_name' => $request->plant_name,
-                    'user_id' => 1, // fix
-                    'price' => $request->price,
+            // insert cloud image details
+            $cloud_image_id = CloudImageDetails::create(array(
+                    'location' => 'google_drive',
                     'img_name' => $img_name,
                     'thumbnail_img_name' => $thumbnail_img_name,
+                    'date_taken' => '2021-01-01',
                     'img_cloud_path' => $img_cloud_path,
                     'thumbnail_img_cloud_path' => $thumbnail_img_cloud_path,
+                    'is_available' => 1,
+                    'is_deleted' => 0
+                )
+            )->id;
+            
+            $response_data['plant_obj'] = MyPlant::create(array(
+                    'user_id' => 1, // fix
+                    'plant_name' => $request->plant_name,
+                    'price' => $request->price,
+                    'main_image' => $cloud_image_id,
+                    'image_list' => "1,2,3",
                     'plant_status_id' => 1, // normal status
                     'received_date' => $request->received_date,
                     'note' => $request->note,
@@ -123,34 +121,4 @@ class PlantAPI extends Controller
 
 }
 
-class GoogleDrive {
-    public static function uploadPlantImg($file, $filename){
-        Storage::disk("gd-img")->putFileAs("", $file, $filename);
-    }
-
-    public static function uploadPlantThumbnailImg($file, $filename){
-        $image = Image::make($file);
-        $image->orientate();
-        $image->resize(500, 500, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        $image->save(public_path('images/'.$filename));
-        $saved_image_uri = $image->dirname.'/'.$image->basename; 
-        Storage::disk("gd-thumbnail-img")->put($filename, file_get_contents($saved_image_uri));
-        $image->destroy();
-        unlink($saved_image_uri);
-    }
-
-    public static function getCloudFileList($folder){
-        $return_data = array();
-        $file_list = Storage::disk($folder)->allFiles();
-        foreach($file_list as $file){
-            $details = Storage::disk($folder)->getMetadata($file);
-            $fname = $details['name'];
-            $url = Storage::disk($folder)->url($file);
-            $return_data[$fname] = $url;
-        }
-        return $return_data;
-    }
-} 
 

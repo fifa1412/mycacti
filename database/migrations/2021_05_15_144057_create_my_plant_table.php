@@ -18,7 +18,8 @@ class CreateMyPlantTable extends Migration
             $table->integer('user_id');
             $table->string('plant_name',128);
             $table->decimal('price', 10, 2)->nullable();
-            $table->string('img',32);
+            $table->string('main_image',32);
+            $table->string('image_list',32);
             $table->integer('plant_status_id');
             $table->date('received_date')->nullable();
             $table->text('note')->nullable();
